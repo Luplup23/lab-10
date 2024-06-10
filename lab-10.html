@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Bishop Chess Piece</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        scene.background = new THREE.Color( 0xffffff );
+        const points = [];
+        points.push(new THREE.Vector2(0.6, 0));    
+        points.push(new THREE.Vector2(0.8, 0.2));
+        points.push(new THREE.Vector2(0.7, 0.4));
+        points.push(new THREE.Vector2(0.5, 1));    
+        points.push(new THREE.Vector2(0.4, 1.5));
+        points.push(new THREE.Vector2(0.4, 2));
+        points.push(new THREE.Vector2(1, 2.3)); 
+        points.push(new THREE.Vector2(0.8, 2.5));
+        points.push(new THREE.Vector2(0.35, 2.5));
+        points.push(new THREE.Vector2(0.4, 2.6));
+        points.push(new THREE.Vector2(0.4, 2.7));
+        points.push(new THREE.Vector2(0.4, 2.8));
+        points.push(new THREE.Vector2(0.5, 3)); 
+        points.push(new THREE.Vector2(0.7, 3.2));
+        points.push(new THREE.Vector2(0.6, 3.5)); 
+        points.push(new THREE.Vector2(0.1, 3.8));
+        points.push(new THREE.Vector2(0.2, 4));
+        points.push(new THREE.Vector2(0.1, 4.1));
+        const latheGeometry = new THREE.LatheGeometry(points, 32);
+        const material = new THREE.MeshPhongMaterial({ color: 0x0000000 });
+        const bishopBody = new THREE.Mesh(latheGeometry, material);
+
+        const bishop = new THREE.Group();
+        bishop.add(bishopBody);
+
+
+
+        scene.add(bishop);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        camera.position.z = 7;
+        camera.position.y = 2;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            bishop.rotation.y += 0.01;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>
